@@ -1,0 +1,9 @@
+*
+!LICENSE
+!*.md
+!*.tex
+!.gitignore
+!do
+!.latexmkrc
+!makefile
+!archive
