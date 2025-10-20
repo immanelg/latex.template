@@ -34,14 +34,20 @@ OPENER=okular
     latexmk -C
 }
 
-######################################################
-die() { echo "$1"; exit 1; }
+##################################################################
+@help() {
+    echo "do™️: Do some commands for this project. Like Just, but in bash and self-contained."
+    echo 
+    echo "Available commands:"
+    declare -F | grep "^declare -f @" | cut -f 2 -d @ | sed "s|^|\t$0 |"
+}
+DEFAULT=help
 if [[ -z $1 ]]; then
-    task="$(declare -F | grep "^declare -f @" | head -n1 | cut -f 2 -d @)"
-    eval @$task
+    # this has alphabetical sorting, so we can't pick first.
+    # task="$(declare -F | grep "^declare -f @" | head -n1 | cut -f 2 -d @)"
+    eval "@$DEFAULT"
 else
-    declare -F | grep -qx "declare -f @$1" || die "no task $1"
+    declare -F | grep -qx "declare -f @$1" || { echo "No such task: $1"; echo; @help; exit 1; }
     task=@$1; shift
-    eval $task "$@"
+    eval "$task "$@""
 fi
-
